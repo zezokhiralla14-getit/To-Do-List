@@ -1,39 +1,51 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <title>To-Do App</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <div class="container">
-        <div class="todo-app">
-            <h1>To-Do App</h1>
-            <div class="stat-container">
-                <div class="details">
-                    <h3>Keep it Up!</h3>
-                    <div id="progressbar">
-                        <div id="progress"></div>
-                    </div>
-                </div>
-                <div class="stats-number">
-                    <p id="numbers">0 / 0</p>
-                </div>
+      <div class="todo-app">
+        <h1>To-Do App</h1>
+        <div class="stat-container">
+          <div class="details">
+            <h3>Keep it Up!</h3>
+            <div id="progressbar">
+              <div id="progress"></div>
             </div>
-            <form action="" class="input-area">
-                <input type="text" id="task-input" placeholder="Add a new task...">
-                <button type="submit" id="add-task-btn"><i class="fa-solid fa-plus"></i></button>
-            </form>
-            <div class="todos-container"></div>
-            <ul id="task-list"></ul>
-            <img class="empty-image" src="./images/empty-image.png" alt="empty">
+          </div>
+          <div class="stats-number">
+            <p id="numbers">0 / 0</p>
+          </div>
         </div>
+        <form action="" class="input-area">
+          <input type="text" id="task-input" placeholder="Add a new task..." />
+          <button type="submit" id="add-task-btn">
+            <i class="fa-solid fa-plus"></i>
+          </button>
+        </form>
+        <div class="todos-container"></div>
+        <ul id="task-list"></ul>
+        <img class="empty-image" src="./images/empty-image.png" alt="empty" />
+      </div>
     </div>
+    <div id="toast-container"></div>
 
     <script src="script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
-</body>
+  </body>
 </html>
