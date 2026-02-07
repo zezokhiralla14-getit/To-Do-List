@@ -6,149 +6,144 @@ document.addEventListener('DOMContentLoaded', () => {
     const progressBar = document.getElementById('progress');
     const progressNumbers = document.getElementById('numbers');
     
-    const toggleEmptyState = () => {
-        emptyImage.style.display = taskList.children.length === 0 ? 'block' : 'none';
+    const handleButtonState = () => {
+        const text = taskInput.value.trim();
+        addTaskBtn.disabled = (text === "");
     };
 
-    const updateProgress = (checkCompletion = true) => {
-        const totalTasks = taskList.children.length;
-        const completedTasks = taskList.querySelectorAll('.checkbox:checked').length;
+    const showToast = (message) => {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = message;
 
-        progressBar.style.width = totalTasks ? `${(completedTasks / totalTasks) * 100}%` : '0%';
-        progressNumbers.textContent = `${completedTasks} / ${totalTasks}`;
+    container.appendChild(toast);
 
-        if(totalTasks === 0) {
-            progressBar.style.width = '0%';
-        }
+    setTimeout(() => {
+        toast.remove();
+    }, 3000);
+};
 
-        if(checkCompletion && totalTasks > 0 && completedTasks === totalTasks) {
+    const refreshUI = (checkWin = true) => {
+        const tasks = taskList.querySelectorAll('li');
+        const completed = taskList.querySelectorAll('li.completed');
+        
+        emptyImage.style.display = tasks.length === 0 ? 'block' : 'none';
+        emptyImage.style.animation = "fadeIn 1s ease forwards";
+
+        const progress = tasks.length ? (completed.length / tasks.length) * 100 : 0;
+        progressBar.style.width = `${progress}%`;
+        progressNumbers.textContent = `${completed.length} / ${tasks.length}`;
+
+        if(checkWin && tasks.length > 0 && completed.length === tasks.length) {
             Confetti();
         }
     };
 
-    const saveTaskToLocalStorage = () => {
-        const tasks = Array.from(taskList.querySelectorAll('li')).map(li => ({
+    const saveToLocal = () => {
+        const data = Array.from(taskList.querySelectorAll('li')).map(li => ({
             text: li.querySelector('span').textContent,
-            completed: li.querySelector('.checkbox').checked
+            completed: li.classList.contains('completed')
         }));
-        localStorage.setItem('tasks', JSON.stringify(tasks));
+        localStorage.setItem('myTasks', JSON.stringify(data));
     };
 
-    const loadTasksFromLocalStorage = () => {
-        const savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
-        savedTasks.forEach(({ text, completed }) => addTask(text, completed, false));
-        toggleEmptyState();
-        updateProgress();
-    }
-
-    const addTask = (text, completed = false, checkCompletion = true) => {
-        const taskText = text || taskInput.value.trim();
-        if(!taskText) {
-            return;
-        }
-
+    const createTaskElement = (text, isCompleted = false) => {
         const li = document.createElement('li');
+        if(isCompleted) li.classList.add('completed');
+
         li.innerHTML = `
-        <input type="checkbox" class="checkbox" ${completed ? 'checked' : ''} />
-        <span>${taskText}</span>
-        <div class="task-buttons">
-            <button class="edit-btn"><i class="fa-solid fa-pen"></i></button>
-            <button class="delete-btn"><i class="fa-solid fa-trash"></i></button>
-        </div>
+            <input type="checkbox" class="checkbox" ${isCompleted ? 'checked' : ''}>
+            <span>${text}</span>
+            <div class="task-buttons">
+                <button class="edit-btn"><i class="fa-solid fa-pen"></i></button>
+                <button class="delete-btn"><i class="fa-solid fa-trash"></i></button>
+            </div>
         `;
 
-        const checkbox = li.querySelector('.checkbox');
-        const editBtn = li.querySelector('.edit-btn');
-
-        if(completed) {
-            li.classList.add('completed');
-            editBtn.disabled = true;
-            editBtn.style.opacity = '0.5';
-            editBtn.style.pointerEvents = 'none';
-        }
-
-        checkbox.addEventListener('change', () => {
-            const isChecked = checkbox.checked;
-            li.classList.toggle('completed', isChecked);
-            editBtn.disabled = isChecked;
-            editBtn.style.opacity = isChecked ? '0.5' : '1';
-            editBtn.style.pointerEvents = isChecked ? 'none': 'auto';
-            updateProgress();
-            saveTaskToLocalStorage();
+        // حدث الـ Checkbox
+        li.querySelector('.checkbox').addEventListener('change', (e) => {
+            li.classList.toggle('completed', e.target.checked);
+            saveToLocal();
+            refreshUI();
         });
 
-        editBtn.addEventListener('click', () => {
-            if(!checkbox.checked) {
-                taskInput.value = li.querySelector('span').textContent;
-                li.remove();
-                toggleEmptyState();
-                updateProgress(false);
-            }
-        });
-
+        // حدث الحذف مع Animation
         li.querySelector('.delete-btn').addEventListener('click', () => {
-            li.remove();
-            toggleEmptyState();
-            updateProgress(false);
-            saveTaskToLocalStorage();
+            li.style.animation = "fadeOut 0.3s ease forwards";
+            setTimeout(() => {
+                li.remove();
+                saveToLocal();
+                refreshUI(false);
+            }, 300);
         });
 
-        taskList.appendChild(li);
-        taskInput.value = '';
-        toggleEmptyState();
-        updateProgress(checkCompletion);
-        saveTaskToLocalStorage();
+li.querySelector('.edit-btn').addEventListener('click', () => {
+
+    if (li.classList.contains('completed')) {
+        return;
+    }
+
+    const span = li.querySelector('span');
+    const currentText = span.textContent;
+    
+    span.innerHTML = `<input type="text" class="edit-input" value="${currentText}">`;
+    const editInput = span.querySelector('.edit-input');
+    
+    editInput.focus();
+
+    const saveEdit = () => {
+        const newText = editInput.value.trim();
+        if (newText !== "") {
+            span.textContent = newText;
+        } else {
+            span.textContent = currentText;
+        }
+        saveToLocal();
     };
 
-    addTaskBtn.addEventListener('click', () => addTask());
-    taskInput.addEventListener('keypress', (e) => {
-        if(e.key === 'Enter') {
-        e.preventDefault();
-            addTask();
+    editInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            saveEdit();
         }
     });
 
-    loadTasksFromLocalStorage();
+    editInput.addEventListener('blur', saveEdit);
 });
+
+        taskList.appendChild(li);
+    };
+
+    addTaskBtn.addEventListener('click', (e) => {
+        e.preventDefault(); // منع الـ Refresh
+        const text = taskInput.value.trim();
+        if(text) {
+            createTaskElement(text);
+            taskInput.value = '';
+            handleButtonState();
+            saveToLocal();
+            refreshUI();
+            showToast("Task added successfully! ✨");
+        }
+    });
+
+    taskInput.addEventListener('input', handleButtonState);
+
+    const loadData = () => {
+        const saved = JSON.parse(localStorage.getItem('myTasks')) || [];
+        saved.forEach(t => createTaskElement(t.text, t.completed));
+        refreshUI(false);
+        handleButtonState();
+    };
+    loadData();
+});
+
 
 const Confetti = () => {
-    const count = 300,
-  defaults = {
-    origin: { y: 0.9 },
-  };
-
-function fire(particleRatio, opts) {
-  confetti(
-    Object.assign({}, defaults, opts, {
-      particleCount: Math.floor(count * particleRatio),
-    })
-  );
-}
-
-fire(0.25, {
-  spread: 30,
-  startVelocity: 55,
-});
-
-fire(0.2, {
-  spread: 60,
-});
-
-fire(0.35, {
-  spread: 100,
-  decay: 0.91,
-  scalar: 0.8,
-});
-
-fire(0.1, {
-  spread: 120,
-  startVelocity: 25,
-  decay: 0.92,
-  scalar: 1.2,
-});
-
-fire(0.1, {
-  spread: 120,
-  startVelocity: 45,
-});
+    confetti({
+        particleCount: 200,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#ff4772', '#ffffff', '#ffbf00']
+    });
 };
