@@ -147,3 +147,4 @@ const Confetti = () => {
         colors: ['#ff4772', '#ffffff', '#ffbf00']
     });
 };
+
