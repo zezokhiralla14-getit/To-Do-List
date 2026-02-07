@@ -141,10 +141,11 @@ li.querySelector('.edit-btn').addEventListener('click', () => {
 
 const Confetti = () => {
     confetti({
-        particleCount: 200,
+        particleCount: 250,
         spread: 70,
-        origin: { y: 0.6 },
+        origin: { y: 0.9 },
         colors: ['#ff4772', '#ffffff', '#ffbf00']
     });
 };
+
 
