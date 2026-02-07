@@ -119,12 +119,17 @@ body {
 .input-area button {
     width: 45px;
     height: 45px;
+    min-width: 45px;
     border-radius: 50%;
-    border: none;
     background: #ff4772;
-    color: #fff;
+    color: white;
+    border: none;
     cursor: pointer;
-    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    transition: 0.3s;
 }
 
 .input-area button:hover {
@@ -289,12 +294,21 @@ li.completed .edit-btn {
     }
 
     .input-area {
-        flex-direction: column; 
+        flex-direction: row;
+        display: flex;
+        gap: 8px;
+    }
+
+    .input-area input {
+        flex: 1;
+        min-width: 0;
     }
 
     .input-area button {
-        width: 100%;
+        width: 45px;
         height: 45px;
+        flex-shrink: 0;
+        border-radius: 50%;
     }
 
     #task-list li {
