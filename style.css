@@ -22,103 +22,81 @@ body {
     align-items: center;
     margin-top: 40px;
     width: 100%;
-    height: 100%;
     padding: 0 20px;
-}
-
-.stat-container {
-    padding: 15px 20px;
-    border-radius: 10px;
-    border: 2px solid rgba(255, 255, 255, 0.18);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    width: 100%;
-}
-
-.details {
-    width: 100%;
-}
-
-.details h3 {
-    color: #fff;
-}
-
-#progressbar {
-    width: 100%;
-    height: 7px;
-    background: rgba(255, 194, 209, 0.3);
-    border-radius: 20px;
-    position: relative;
-    margin-top: 15px;
-    
-}
-
-#progress {
-    width: 0%;
-    height: 100%;
-    background: #ff4772;
-    border-radius: 20px;
-    transition: width 0.3s ease;
-}
-
-#numbers {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 80px;
-    height: 80px;
-    background: #ff4772;
-    border: 2px solid rgba(255, 194, 209, 0.3);
-    font-weight: bold;
-    border-radius: 50%;
-    font-size: 1.5rem;
-}
-
-.empty-image {
-    width: 240px;
-    display: none;
 }
 
 .todo-app {
     width: 100%;
     max-width: 400px;
     padding: 2rem;
-    margin-bottom: 20px;
     display: flex;
-    align-items: center;
-    justify-content: center;
     flex-direction: column;
     gap: 30px;
     color: #fff;
     border-radius: 20px;
     box-shadow: 0 0 100px rgba(0, 0, 0, 0.5);
-    border: 3px rgba(255, 255, 255, 0.18);
     backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .todo-app h1 {
     font-size: 2rem;
+    text-align: center;
 }
 
+/* الإحصائيات */
+.stat-container {
+    padding: 15px 20px;
+    border-radius: 15px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+#progressbar {
+    width: 150%;
+    height: 8px;
+    background: rgba(255, 194, 209, 0.2);
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+#progress {
+    width: 0%;
+    height: 100%;
+    background: #ff4772;
+    border-radius: 10px;
+    transition: width 0.4s ease;
+}
+
+#numbers {
+    width: 70px;
+    height: 70px;
+    background: #ff4772;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+/* منطقة الإدخال */
 .input-area {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
+    gap: 10px;
 }
 
 .input-area input {
     flex: 1;
-    font-family: 'Poppins', sans-serif;
-    padding: 10px 17px;
-    font-size: 1.1rem;
+    padding: 12px 20px;
+    border-radius: 25px;
     border: none;
     outline: none;
-    border-radius: 22px;
-    background: rgba(255, 194, 209, 0.3);
-    color:#fff;
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
 }
 
 .input-area input::placeholder {
@@ -126,54 +104,70 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
+.edit-input {
+    background: rgba(255, 255, 255, 0.2); /* خلفية شفافة */
+    border: 1px solid #ff4772; /* برواز بلون الموقع */
+    border-radius: 8px;
+    color: white;
+    padding: 2px 8px;
+    outline: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    width: 100%; /* ياخد مساحة المهمة كلها */
+}
+
 .input-area button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 10px;
-    padding: 8px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
-    height: 40px;
+    border: none;
+    background: #ff4772;
     color: #fff;
-    font-size: 1.1rem;
-    background: rgba(255, 194, 209, 0.3);
-    border: 2px solid rgba(255, 255, 255, 0.18);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
 }
 
 .input-area button:hover {
     transform: scale(1.1);
-    background: #ff4772;
+    background: #ff668a;
 }
 
-.todos-container {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* حالة الزرار وهو مقفول (طلبك يا جيمي) */
+.input-area button:disabled {
+    background: rgba(255, 194, 209, 0.3);
+    opacity: 0.5;
+    transform: scale(1);
+    cursor: auto;
 }
 
+/* قائمة المهام */
 #task-list {
-    width: 100%;
+    list-style: none;
 }
 
 #task-list li {
+    background: rgba(255, 255, 255, 0.1);
+    margin-bottom: 12px;
+    padding: 12px 15px;
+    border-radius: 15px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    background: rgba(255, 194, 209, 0.3);
-    margin-bottom: 10px;
-    padding: 8px 10px;
-    border-radius: 30px;
-    font-size: 1.2rem;
-    color: #fff;
-    position: relative;
-    transition: box-shadow 0.2s ease;
+    gap: 10px;
+    animation: fadeIn 0.4s ease forwards;
 }
 
 #task-list li:hover {
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+#task-list li.completed span {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+#task-list li span {
+    flex: 1;
 }
 
 #task-list li .checkbox {
@@ -200,21 +194,28 @@ body {
     justify-content: center;
 }
 
-#task-list li span {
-    flex: 1;
-    margin-left: 10px;
-    word-wrap: break-word;
-}
-
-#task-list li.completed span {
-    text-decoration: 2px line-through #000;
-    color: #000;
-}
-
 .task-buttons {
     display: flex;
     gap: 10px;
     margin-right: auto;
+}
+
+.task-buttons button:hover {
+    transform: scale(1.12);
+}
+
+.task-buttons .edit-btn {
+    background: #ffbf00;
+}
+
+li.completed .edit-btn {
+    opacity: 0.3;
+    cursor: default;
+    pointer-events: none;
+}
+
+.task-buttons .delete-btn {
+    background: #ff4772;
 }
 
 .task-buttons button {
@@ -232,40 +233,41 @@ body {
     justify-content: center;
 }
 
-.task-buttons button:hover {
-    transform: scale(1.12);
+.empty-image {
+    width: 240px;
+    margin: 0 auto;
+    display: block;
 }
 
-.task-buttons .edit-btn {
-    background: #ffbf00;
+#toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
 }
 
-.task-buttons .delete-btn {
-    background: #ff4772;
+.toast {
+    background: rgba(255, 71, 114, 0.9); /* لون بينك شفاف شوية */
+    color: white;
+    padding: 12px 25px;
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+    margin-top: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    animation: slideInRight 0.5s ease, fadeOut 0.5s ease 2.5s forwards;
 }
 
-@media (max-width: 600px) {
-    .container {
-        margin: 0 20px;
-        padding: 0 10px;
-    }
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
-    .todo-app {
-        padding: 1.5rem;
-        gap: 20px;
-    }
+@keyframes fadeOut {
+    to { opacity: 0; transform: scale(0.9); }
+}
 
-    #numbers {
-        width: 60px;
-        height: 60px;
-        font-size: 1rem;
-    }
-
-    .input-area input {
-        font-size: 1rem;
-    }
-
-    #task-list li {
-        font-size: 1rem;
-    }
+@keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
 }
